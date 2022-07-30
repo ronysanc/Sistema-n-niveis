@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
         //dos estados atomicos
         for (int i = 0; i < quantidadeNiveis; i++)
         {
-            /*TODO: Cálculo da evolução temporal*/
+            //TODO: Cálculo da evolução temporal
             probabilidadeEstado[i] = 0.0;
         }
     }

@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     //Configurar o estado inicial
     for (int i = 0; i < quantidadeNiveis; i++)
         estadoInicial[i] = 0.0;
-    estadoInicial[0] = 1.0f + 0.0i;    
+    estadoInicial[0] = 1.0f + 0.0i;
 
     //Efetuar a evolução temporal dos estados segundo o
     //cenário de Schrödinger

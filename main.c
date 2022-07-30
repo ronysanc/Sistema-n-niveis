@@ -7,8 +7,9 @@ int main(int argc, char *argv[])
     FILE *eigenFile = fopen("Diagonal.dat", "r");
 
     const int quantidadeNiveis = 2;
-    double autovalor[quantidadeNiveis];
+    double autovalor[quantidadeNiveis], probabilidadeEstado[quantidadeNiveis];
     double complex evolucaoTemporal[quantidadeNiveis];
+    double complex estadoInicial[quantidadeNiveis];
     double complex mudancaBase[quantidadeNiveis][quantidadeNiveis];
     double realAutovalor, cmplAutovalor;
     double const Omega = 1.0, dt = 0.5;
@@ -20,11 +21,20 @@ int main(int argc, char *argv[])
     //Ler a matriz de mudança de base da base canônica
     //à base de autoestados
     for (int i = 0; i < quantidadeNiveis; i++)
+    {
         for (int j = 0; j < quantidadeNiveis; j++)
         {
             fscanf(eigenFile, "(%lf, %lf)\t", &realAutovalor, &cmplAutovalor);
             mudancaBase[i][j] = CMPLX(realAutovalor, cmplAutovalor);
+            printf("(%lf, %lf)\t", creal(mudancaBase[i][j]), cimag(mudancaBase[i][j]));
         }
+        printf("\n");
+    }
+
+    //Configurar o estado inicial
+    for (int i = 0; i < quantidadeNiveis; i++)
+        estadoInicial[i] = 0.0;
+    estadoInicial[0] = 1.0f + 0.0i;    
 
     //Efetuar a evolução temporal dos estados segundo o
     //cenário de Schrödinger
@@ -32,11 +42,12 @@ int main(int argc, char *argv[])
     {
         //Cálculo na base dos autoestados
         for (int i = 0; i < quantidadeNiveis; i++)
-        {
             evolucaoTemporal[i] = cexp(-I * autovalor[i] * T);
-            printf("(%lf, %lf)\n", creal(evolucaoTemporal[i]), cimag(evolucaoTemporal[i]));
-        }
-        //Obter a evolução temporal dos estados para a base
+        //Obter a probabilidade dos estados da base
         //dos estados atomicos
+        for (int i = 0; i < quantidadeNiveis; i++)
+        {
+            probabilidadeEstado[i] = 0.0; /*Cálculo da evolução temporal*/
+        }
     }
 }

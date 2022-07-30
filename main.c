@@ -1,53 +1,38 @@
-#include<stdio.h>
-#include<math.h>
-#include<complex.h>
+#include <stdio.h>
+#include <math.h>
+#include <complex.h>
 
-int main(int argc, char const *argv[])
+int main(int argc, char *argv[])
 {
-    FILE* file01=fopen("Diagonal.dat", "r");
+    FILE *eigenFile = fopen("Diagonal.dat", "r");
 
-    const int n = 2;
-    double autovalores[n];
-    double real = 0.0, imag = 0.0;
-    double complex matrix[n][n];
-    double complex arg = 0.0 + 0.0I;
+    const int quantidadeNiveis = 2;
+    double autovalor[quantidadeNiveis], evolucaoTemporal[quantidadeNiveis];
+    double complex mudancaBase[quantidadeNiveis][quantidadeNiveis];
+    double realAutovalor, cmplAutovalor;
+    double const Omega = 1.0, dt = 0.5;
 
-    for (int i = 0; i < n; i++)
-    {
-        fscanf(file01, "%lf\t", &autovalores[i]);    
-    }
-    
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
+    // Ler os autovalores no arquivo
+    for (int i = 0; i < quantidadeNiveis; i++)
+        fscanf(eigenFile, "%lf\t", &autovalor[i]);
+
+    // Ler a matriz de mudança de base da base canônica
+    //à base de autoestados
+    for (int i = 0; i < quantidadeNiveis; i++)
+        for (int j = 0; j < quantidadeNiveis; j++)
         {
-            fscanf(file01, "(%lf, %lf)\t", &real, &imag);
-            matrix[i][j] = CMPLX(real, imag);
+            fscanf(eigenFile, "(%lf, %lf)\t", &realAutovalor, &cmplAutovalor);
+            mudancaBase[i][j] = CMPLX(realAutovalor, cmplAutovalor);
         }
-    }
 
-    for (int i = 0; i < n; i++)
+    // Efetuar a evolução temporal dos estados segundo o
+    // cenário de Schrödinger
+    for (double T = 0.0; T <= 2.0 * M_PI / Omega; T += dt)
     {
-        printf("%lf \t", autovalores[i]);
+        // Cálculo na base dos autoestados
+        for (int i = 0; i < quantidadeNiveis; i++)
+            evolucaoTemporal[i] = cexp(-I * autovalor[i] * T);
+        // Obter a evolução temporal dos estados para a base
+        // dos estados atomicos
     }
-    printf("\n");
-
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            printf("(%lf, %lf)\t", creal(matrix[i][j]), cimag(matrix[i][j]));
-        }
-        printf("\n");
-    }
-    printf("\n");
-
-    for (int i = 0; i < n; i++) {
-        arg = -I*autovalores[i];
-        printf("(%lf, %lf)\n", cexp(arg));
-    }
-
-    printf("%lf + %lfi\n", creal(arg), cimag(arg));
-
-    return 0;
 }

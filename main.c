@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     double complex estadoInicial[quantidadeNiveis];
     double complex mudancaBase[quantidadeNiveis][quantidadeNiveis];
     double realAutovalor, cmplAutovalor;
-    double const Omega = 1.0, dt = 0.5;
+    double const Tmax = 2.0 * M_PI / 1.0, dt = 0.5;
 
     FILE *eigenFile = fopen("Diagonal.dat", "r");
 
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     estadoInicial[0] = 1.0f + 0.0i;
 //Efetuar a evolução temporal dos estados segundo o
 //cenário de Schrödinger
-    for (double T = 0.0; T <= 2.0 * M_PI / Omega; T += dt)
+    for (double T = 0.0; T <= Tmax; T += dt)
     {
     //Cálculo na base dos autoestados
         for (int i = 0; i < quantidadeNiveis; i++)

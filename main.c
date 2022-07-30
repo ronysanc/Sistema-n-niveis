@@ -25,9 +25,7 @@ int main(int argc, char *argv[])
         {
             fscanf(eigenFile, "(%lf, %lf)\t", &realAutovalor, &cmplAutovalor);
             mudancaBase[i][j] = CMPLX(realAutovalor, cmplAutovalor);
-            printf("(%lf, %lf)\t", creal(mudancaBase[i][j]), cimag(mudancaBase[i][j]));
         }
-        printf("\n");
     }
 //Configurar o estado inicial
     for (int i = 0; i < quantidadeNiveis; i++)

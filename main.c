@@ -7,7 +7,8 @@ int main(int argc, char *argv[])
     FILE *eigenFile = fopen("Diagonal.dat", "r");
 
     const int quantidadeNiveis = 2;
-    double autovalor[quantidadeNiveis], evolucaoTemporal[quantidadeNiveis];
+    double autovalor[quantidadeNiveis];
+    double complex evolucaoTemporal[quantidadeNiveis];
     double complex mudancaBase[quantidadeNiveis][quantidadeNiveis];
     double realAutovalor, cmplAutovalor;
     double const Omega = 1.0, dt = 0.5;
@@ -31,7 +32,10 @@ int main(int argc, char *argv[])
     {
         //Cálculo na base dos autoestados
         for (int i = 0; i < quantidadeNiveis; i++)
+        {
             evolucaoTemporal[i] = cexp(-I * autovalor[i] * T);
+            printf("(%lf, %lf)\n", creal(evolucaoTemporal[i]), cimag(evolucaoTemporal[i]));
+        }
         //Obter a evolução temporal dos estados para a base
         //dos estados atomicos
     }

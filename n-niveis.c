@@ -67,7 +67,7 @@ void computarMatrizHamiltoniana() {
 
   // computar os termos de potencial e hopping
   GSL_SET_COMPLEX(&energiaFundamental, 1.0, 0.0);
-  GSL_SET_COMPLEX(&hopping, 1.0, 0.0);
+  GSL_SET_COMPLEX(&hopping, 0.0, 1.0);
   hoppingConj = gsl_complex_conjugate(hopping);
   // alocar a memória necessária para a execução
   matrizHamiltoniana =

@@ -50,11 +50,13 @@ int main() {
     // armazenar o valor da probabilidade de estar num estado num tempo
     fprintf(arquivoDeResultados, "%g ", tempo);
     for (int i = 0; i < quantidadeNiveis; i++)
+    {
       fprintf(
         arquivoDeResultados,
         "%g ",
         probabilidadeDoSitio(i, estadoAutodecomposicao)
       );
+    }
     fprintf(arquivoDeResultados, "\n");
   }
 
@@ -63,12 +65,11 @@ int main() {
 
 void computarMatrizHamiltoniana() {
   gsl_complex energiaFundamental;
-  gsl_complex hopping, hoppingConj;
+  gsl_complex hopping;
 
   // computar os termos de potencial e hopping
   GSL_SET_COMPLEX(&energiaFundamental, 1.0, 0.0);
-  GSL_SET_COMPLEX(&hopping, 0.0, 1.0);
-  hoppingConj = gsl_complex_conjugate(hopping);
+  GSL_SET_COMPLEX(&hopping, 1.0, 1.0);
   // alocar a memória necessária para a execução
   matrizHamiltoniana =
     gsl_matrix_complex_alloc(quantidadeNiveis,quantidadeNiveis);
@@ -78,10 +79,22 @@ void computarMatrizHamiltoniana() {
   for (int i = 1; i < quantidadeNiveis; i++)
   {
     // elementos da diagonal
-    gsl_matrix_complex_set(matrizHamiltoniana,i,i,energiaFundamental);
+    gsl_matrix_complex_set(
+      matrizHamiltoniana,
+      i,i,
+      energiaFundamental
+    );
     // elementos da subdiagonal
-    gsl_matrix_complex_set(matrizHamiltoniana,i,i-1,hopping);
-    gsl_matrix_complex_set(matrizHamiltoniana,i-1,i,hoppingConj);
+    gsl_matrix_complex_set(
+      matrizHamiltoniana,
+      i,i-1,
+      hopping
+    );
+    gsl_matrix_complex_set(
+      matrizHamiltoniana,
+      i-1,i,
+      gsl_complex_conjugate(hopping)
+    );
   }
   return;
 }
@@ -115,8 +128,11 @@ void diagonalizarMatrizHamiltoniana() {
   return;
 }
 double probabilidadeDoSitio(int i, estadoQuantico Psi) {
-  double complex densidadeDeProbabilidade = 0.0;
+  double complex densidadeProbabilidade = 0.0f + 0.0i;
   for (int j = 0; j < quantidadeNiveis; j++)
-    densidadeDeProbabilidade += Psi.c[j]*autovetor[i].c[j];
-  return (double)conj(densidadeDeProbabilidade)*densidadeDeProbabilidade;
+    densidadeProbabilidade += Psi.c[j]*autovetor[i].c[j];
+  return (double)(
+    creal(densidadeProbabilidade)*creal(densidadeProbabilidade) +
+    cimag(densidadeProbabilidade)*cimag(densidadeProbabilidade)
+  );
 }

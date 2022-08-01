@@ -5,10 +5,10 @@
 int main(int argc, char *argv[])
 {
     const int quantidadeNiveis = 2;
-    double autovalor[quantidadeNiveis], probabilidadeEstado[quantidadeNiveis];
-    double complex evolucaoTemporal[quantidadeNiveis];
+    double autovalor[quantidadeNiveis], probabilidadeEstado;
+    double complex densidadeEstado;
     double complex estadoInicial[quantidadeNiveis];
-    double complex estadoInicialAutoestados[quantidadeNiveis];
+    double complex estadoAutoestados[quantidadeNiveis];
     double complex mudancaBase[quantidadeNiveis][quantidadeNiveis];
     double realAutovalor, cmplAutovalor;
     double const Tmax = 1.0, dt = 0.005;
@@ -39,32 +39,30 @@ int main(int argc, char *argv[])
     //Obter a expansão nos autoestados
     for (int i = 0; i < quantidadeNiveis; i++)
     {
-        estadoInicialAutoestados[i] = 0.0;
+        estadoAutoestados[i] = 0.0;
         for (int j = 0; j < quantidadeNiveis; j++)
-            estadoInicialAutoestados[i] += mudancaBase[i][j]*estadoInicial[j];
+            estadoAutoestados[i] += conj(mudancaBase[i][j])*estadoInicial[j];
     }
 //Efetuar a evolução temporal dos estados segundo o cenário de Schrödinger
     for (double T = 0.0; T <= Tmax; T += dt)
     {
     //Cálculo na base dos autoestados
         for (int i = 0; i < quantidadeNiveis; i++)
-        {
-            evolucaoTemporal[i] = cexp(-I * autovalor[i] * T);
-            estadoInicialAutoestados[i] *= evolucaoTemporal[i];
-        }
+            estadoAutoestados[i] =
+                cexp(-I * (double complex)autovalor[i] * T) * estadoAutoestados[i];
     //Obter a probabilidade dos estados da base dos estados atomicos
         fprintf(resultFile, "%lf ", T);
         for (int i = 0; i < quantidadeNiveis; i++)
         {
             //Obter a densidade de probabilidade
-            probabilidadeEstado[i] = 0.0;
+            densidadeEstado = 0.0;
             for (int j = 0; j < quantidadeNiveis; j++)
-                probabilidadeEstado[i] += 
-                    estadoInicialAutoestados[j]*mudancaBase[i][j];
+                densidadeEstado += 
+                    estadoAutoestados[j]*mudancaBase[i][j];
             //Obter o módulo quadrado da densidade de probabilidade
-            probabilidadeEstado[i] = 
-                conj(probabilidadeEstado[i])*probabilidadeEstado[i];
-            fprintf(resultFile, "%lf ", probabilidadeEstado[i]);
+            probabilidadeEstado =
+                (double)conj(densidadeEstado)*densidadeEstado;
+            fprintf(resultFile, "%lf ", probabilidadeEstado);
         }
         fprintf(resultFile, "\n");
     }

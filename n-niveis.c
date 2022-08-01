@@ -21,7 +21,7 @@ void diagonalizarMatrizHamiltoniana();
 double probabilidadeDoSitio(int, estadoQuantico);
 
 int main() {
-  double tempoMaximo = 2.0, dt = 0.01;
+  double tempoMaximo = 2.0, dt = 0.05;
   estadoQuantico estadoInicial, estadoAutodecomposicao;
   FILE *arquivoDeResultados = fopen("probabilidades.dat", "w");
 
@@ -39,7 +39,7 @@ int main() {
     estadoAutodecomposicao.c[i] = 0.0f + 0.0i;
     for (int j = 0; j < quantidadeNiveis; j++)
       estadoAutodecomposicao.c[i] +=
-        conj(autovetor[i].c[j])*estadoInicial.c[j];
+        autovetor[i].c[j]*estadoInicial.c[j];
   }
   // efetuar a evolução temporal do sistema no cenário de Schrödinger
   for (double tempo = 0.0; tempo < tempoMaximo; tempo+=dt)
@@ -130,7 +130,7 @@ void diagonalizarMatrizHamiltoniana() {
 double probabilidadeDoSitio(int i, estadoQuantico Psi) {
   double complex densidadeProbabilidade = 0.0f + 0.0i;
   for (int j = 0; j < quantidadeNiveis; j++)
-    densidadeProbabilidade += Psi.c[j]*autovetor[i].c[j];
+    densidadeProbabilidade += Psi.c[j]*autovetor[j].c[i];
   return (double)(
     creal(densidadeProbabilidade)*creal(densidadeProbabilidade) +
     cimag(densidadeProbabilidade)*cimag(densidadeProbabilidade)

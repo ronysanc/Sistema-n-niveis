@@ -1,8 +1,7 @@
-import os
+from os import system
 
-os.system("gcc -I /home/rony/gsl/gsl-install/include/ -c Eigen.c")
-os.system("gcc -L /home/rony/gsl/gsl-install/lib/ Eigen.o -lgsl -lgslcblas -lm -o Eigen.out")
-os.system("./Eigen.out")
-
-os.system("gcc main.c -lm -o main.out")
-os.system("./main.out")
+system("gcc -I /home/carlos/gsl/gsl-install/include/ -c n-niveis.c")
+system("gcc -L /home/carlos/gsl/gsl-install/lib/ n-niveis.o -lgsl -lgslcblas -lm -o nNiveis")
+system("rm n-niveis.o")
+system("./nNiveis")
+system("rm nNiveis")

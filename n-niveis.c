@@ -39,7 +39,7 @@ int main() {
     estadoAutodecomposicao.c[i] = 0.0f + 0.0i;
     for (int j = 0; j < quantidadeNiveis; j++)
       estadoAutodecomposicao.c[i] +=
-        autovetor[i].c[j]*estadoInicial.c[j];
+        conj(autovetor[i].c[j])*estadoInicial.c[j];
   }
   // efetuar a evolução temporal do sistema no cenário de Schrödinger
   for (double tempo = 0.0; tempo < tempoMaximo; tempo+=dt)

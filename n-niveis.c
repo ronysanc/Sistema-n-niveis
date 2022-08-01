@@ -46,7 +46,7 @@ int main() {
   {
     // obter o estado no tempo futuro
     for (int i = 0; i < quantidadeNiveis; i++)
-      estadoAutodecomposicao.c[i] *= cexp(-I*autovalor[i]*tempo);
+      estadoAutodecomposicao.c[i] *= cexp(-I*autovalor[i]*dt);
     // armazenar o valor da probabilidade de estar num estado num tempo
     fprintf(arquivoDeResultados, "%g ", tempo);
     for (int i = 0; i < quantidadeNiveis; i++)

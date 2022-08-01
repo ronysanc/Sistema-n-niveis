@@ -5,7 +5,7 @@
 #include<gsl/gsl_eigen.h>
 #include<gsl/gsl_complex_math.h>
 
-#define quantidadeNiveis 3
+#define quantidadeNiveis 501
 const int meioDaRede = (int)(quantidadeNiveis/2);
 
 typedef struct {
@@ -75,7 +75,11 @@ void computarMatrizHamiltoniana() {
     gsl_matrix_complex_alloc(quantidadeNiveis,quantidadeNiveis);
   // computar os elementos da matriz hamiltoniana
   gsl_matrix_complex_set_zero(matrizHamiltoniana);
-  gsl_matrix_complex_set(matrizHamiltoniana,0,0,energiaFundamental);
+  gsl_matrix_complex_set(
+    matrizHamiltoniana,
+    0,0,
+    energiaFundamental
+  );
   for (int i = 1; i < quantidadeNiveis; i++)
   {
     // elementos da diagonal

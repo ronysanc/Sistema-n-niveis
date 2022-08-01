@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     double complex estadoInicialAutoestados[quantidadeNiveis];
     double complex mudancaBase[quantidadeNiveis][quantidadeNiveis];
     double realAutovalor, cmplAutovalor;
-    double const Tmax = 2.0 * M_PI / 1.0, dt = 0.005;
+    double const Tmax = 1.0, dt = 0.005;
 
     FILE *eigenFile = fopen("Diagonal.dat", "r");
     FILE *resultFile = fopen("Dados.dat", "w");

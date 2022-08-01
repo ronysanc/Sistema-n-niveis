@@ -5,7 +5,7 @@
 #include<gsl/gsl_eigen.h>
 #include<gsl/gsl_complex_math.h>
 
-#define quantidadeNiveis 2
+#define quantidadeNiveis 3
 const int meioDaRede = (int)(quantidadeNiveis/2);
 
 typedef struct {
@@ -68,8 +68,8 @@ void computarMatrizHamiltoniana() {
   gsl_complex hopping;
 
   // computar os termos de potencial e hopping
-  GSL_SET_COMPLEX(&energiaFundamental, 1.0, 0.0);
-  GSL_SET_COMPLEX(&hopping, 1.0, 1.0);
+  GSL_SET_COMPLEX(&energiaFundamental, 0.0, 0.0);
+  GSL_SET_COMPLEX(&hopping, 0.0, 1.0);
   // alocar a memória necessária para a execução
   matrizHamiltoniana =
     gsl_matrix_complex_alloc(quantidadeNiveis,quantidadeNiveis);

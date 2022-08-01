@@ -72,8 +72,8 @@ void computarMatrizHamiltoniana() {
   // alocar a memória necessária para a execução
   matrizHamiltoniana =
     gsl_matrix_complex_alloc(quantidadeNiveis,quantidadeNiveis);
-  gsl_matrix_complex_set_zero(matrizHamiltoniana);
   // computar os elementos da matriz hamiltoniana
+  gsl_matrix_complex_set_zero(matrizHamiltoniana);
   gsl_matrix_complex_set(matrizHamiltoniana,0,0,energiaFundamental);
   for (int i = 1; i < quantidadeNiveis; i++)
   {

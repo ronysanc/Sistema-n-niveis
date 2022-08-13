@@ -5,8 +5,10 @@
 #include<gsl/gsl_eigen.h>
 #include<gsl/gsl_complex_math.h>
 
-#define quantidadeNiveis 501
+#define quantidadeNiveis 100
+
 const int meioDaRede = (int)(quantidadeNiveis/2);
+const int inicioDaRede = (int)(0);
 
 typedef struct {
   double complex c[quantidadeNiveis];
@@ -21,14 +23,14 @@ void diagonalizarMatrizHamiltoniana();
 double probabilidadeDoSitio(int, estadoQuantico);
 
 int main() {
-  double tempoMaximo = 2.0, dt = 0.05;
+  double tempoMaximo = 100.0, dt = 0.05;
   estadoQuantico estadoInicial, estadoAutodecomposicao;
   FILE *arquivoDeResultados = fopen("probabilidades.dat", "w");
 
   // configurar o estado inicial da rede
   for (int i = 0; i < quantidadeNiveis; i++)
     estadoInicial.c[i] = 0.0;
-  estadoInicial.c[meioDaRede] = 1.0f + 0.0i;
+  estadoInicial.c[inicioDaRede] = 1.0f + 0.0i;
   // computar a matriz do hamiltoniano do sistema nos estados atomicos
   computarMatrizHamiltoniana();
   // diagonalizar a matriz hamiltoniana
